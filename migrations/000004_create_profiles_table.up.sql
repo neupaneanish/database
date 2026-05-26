@@ -9,10 +9,10 @@ create table if not exists profiles
     dob        date               not null,
     phone      varchar(15) unique not null,
 
-    created_at timestamptz        not null default clock_timestamp(),
+    created_at timestamptz        not null default now(),
     created_by uuid               not null,
 
-    updated_at timestamptz        not null default clock_timestamp(),
+    updated_at timestamptz        not null default now(),
     updated_by uuid               not null,
 
     constraint check_created_updated_at

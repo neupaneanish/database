@@ -6,7 +6,7 @@ create table if not exists credentials
 
     password   bytea            not null,
 
-    created_at timestamptz      not null default clock_timestamp(),
+    created_at timestamptz      not null default now(),
     created_by uuid             not null
 );
 

@@ -5,14 +5,14 @@ create table if not exists two_factors
 
     secret       bytea            not null,
 
-    enabled_at   timestamptz      not null default clock_timestamp(),
-    verified_at  timestamptz      not null default clock_timestamp(),
-    last_used_at timestamptz      not null default clock_timestamp(),
+    enabled_at   timestamptz      not null default now(),
+    verified_at  timestamptz      not null default now(),
+    last_used_at timestamptz      not null default now(),
 
-    created_at   timestamptz      not null default clock_timestamp(),
+    created_at   timestamptz      not null default now(),
     created_by   uuid             not null,
 
-    updated_at   timestamptz      not null default clock_timestamp(),
+    updated_at   timestamptz      not null default now(),
     updated_by   uuid             not null,
 
     constraint check_created_updated_at
