@@ -6,7 +6,7 @@ create table if not exists recovery_codes
     code       bytea            not null,
     used_at    timestamptz,
 
-    created_at timestamptz      not null default clock_timestamp(),
+    created_at timestamptz      not null default now(),
     created_by uuid             not null
 );
 
