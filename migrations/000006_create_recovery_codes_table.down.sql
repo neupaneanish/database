@@ -1,0 +1,1 @@
+drop table if exists recovery_codes;
