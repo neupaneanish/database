@@ -22,7 +22,7 @@ where id = @id
        coalesce(sqlc.narg('phone'), phone) is distinct from (name, avatar, about, dob, phone))
 returning *;
 
--- name: Profile: one
+-- name: Profile :one
 select *
 from profiles
 where user_id = @user_id;

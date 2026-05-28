@@ -17,7 +17,7 @@ select *
 from users
 where email = @email;
 
--- name: Me: one
+-- name: Me :one
 select role, email_verified_at
 from users
 where id = @id;
