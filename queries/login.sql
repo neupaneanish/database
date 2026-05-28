@@ -1,7 +1,6 @@
 -- name: Login :one
 select u.id,
        u.email,
-       u.email_verified_at,
        u.username,
        u.role,
        u.status,
