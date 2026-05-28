@@ -16,7 +16,7 @@ from recovery_codes
 where user_id = @user_id
   and used_at is null;
 
--- name: RecoveryCodes: one
+-- name: RecoveryCodes :one
 select count(*)
 from recovery_codes
 where user_id = @user_id
