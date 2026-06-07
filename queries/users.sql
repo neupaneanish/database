@@ -12,10 +12,10 @@ where id = @id
   and email_verified_at is null
 returning *;
 
--- name: UserByUsername :one
-select *
+-- name: UserByEmail :one
+select id, role, status
 from users
-where username = @username;
+where email = @email;
 
 -- name: Me :one
 select role, email_verified_at

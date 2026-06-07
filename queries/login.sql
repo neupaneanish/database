@@ -12,5 +12,5 @@ from users u
                         where u.id = c.user_id
                         order by c.id desc
                         limit 1) as c on true
-where username = @username
+where email = @email
 limit 1;
