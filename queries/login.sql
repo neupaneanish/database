@@ -4,6 +4,7 @@ select u.id,
        u.username,
        u.role,
        u.status,
+       u.email_verified_at,
        c.password,
        (exists(select 1 from two_factors tf where tf.user_id = u.id))::boolean as two_factor
 from users u
