@@ -6,6 +6,7 @@ returning *;
 -- name: VerifyEmail :one
 update users
 set email_verified_at = now(),
+    status            = @status,
     updated_at        = now(),
     updated_by        = @updated_by
 where id = @id
@@ -17,8 +18,8 @@ select id, role, status
 from users
 where email = @email;
 
--- name: Me :one
-select role, email_verified_at
+-- name: Role :one
+select role
 from users
 where id = @id;
 
