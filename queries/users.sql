@@ -14,7 +14,7 @@ where id = @id
 returning *;
 
 -- name: UserByEmail :one
-select id, status, email_verified_at
+select id, role, status, email_verified_at
 from users
 where email = @email;
 
