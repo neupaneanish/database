@@ -4,8 +4,8 @@ create table if not exists profiles
     user_id    uuid unique        not null references users (id) on delete cascade,
 
     name       varchar(64)        not null,
-    avatar     text               not null,
-    about      text               not null,
+    avatar     text,
+    about      text,
     dob        date               not null,
     phone      varchar(15) unique not null,
 
@@ -20,7 +20,7 @@ create table if not exists profiles
 );
 
 create index if not exists idx_profile_created_by
-    on profiles (created_by);
+    on profiles (created_by, created_at desc);
 
 create index if not exists idx_profile_updated_by
-    on profiles (updated_by);
+    on profiles (updated_by, updated_at desc);

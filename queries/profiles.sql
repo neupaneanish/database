@@ -1,22 +1,37 @@
 -- name: CreateProfile :one
-insert into profiles(user_id, name, avatar, about, dob, phone, created_by, updated_by)
-values (@user_id, @name, @avatar, @about, @dob, @phone, @created_by, @updated_by)
+insert into profiles(user_id, name, dob, phone, created_by, updated_by)
+values (@user_id, @name, @dob, @phone, @created_by, @updated_by)
 returning *;
 
--- name: UpdateProfile :one
+-- name: UpdateAvatar :one
 update profiles
-set avatar     = coalesce(sqlc.narg('avatar'), avatar),
-    about      = coalesce(sqlc.narg('about'), about),
-    phone      = coalesce(sqlc.narg('phone'), phone),
+set avatar     = @avatar,
     updated_at = now(),
     updated_by = @updated_by
 where id = @id
   and user_id = @user_id
   and updated_at = @updated_at::timestamptz
-  and (coalesce(sqlc.narg('avatar'), avatar),
-       coalesce(sqlc.narg('about'), about),
-       coalesce(sqlc.narg('phone'), phone) is distinct from (avatar, about, phone))
-returning *;
+returning avatar;
+
+-- name: UpdateAbout :one
+update profiles
+set about      = @about,
+    updated_at = now(),
+    updated_by = @updated_by
+where id = @id
+  and user_id = @user_id
+  and updated_at = @updated_at::timestamptz
+returning about;
+
+-- name: UpdatePhone :one
+update profiles
+set phone      = @phone,
+    updated_at = now(),
+    updated_by = @updated_by
+where id = @id
+  and user_id = @user_id
+  and updated_at = @updated_at::timestamptz
+returning phone;
 
 -- name: Profile :one
 select *
