@@ -3,15 +3,14 @@ insert into users (email, username, role, status, created_by, updated_by)
 values (@email, @username, @role, @status, @created_by, @updated_by)
 returning *;
 
--- name: VerifyEmail :one
+-- name: VerifyEmail :execresult
 update users
 set email_verified_at = now(),
     status            = @status,
     updated_at        = now(),
     updated_by        = @updated_by
 where id = @id
-  and email_verified_at is null
-returning *;
+  and email_verified_at is null;
 
 -- name: UserByEmail :one
 select id, role, status, email_verified_at
