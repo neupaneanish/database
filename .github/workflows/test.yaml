@@ -46,8 +46,8 @@ jobs:
 
       - name: Create database
         run: |
-          docker exec ${{ job.services.postgres.id }} psql -U test -d postgres -c "CREATE DATABASE authn;"
-          docker exec ${{ job.services.postgres.id }} psql -U test -d postgres -c "CREATE DATABASE portfolio;"
+          docker exec ${{ job.services.postgres.id }} psql -U postgres -d postgres -c "CREATE DATABASE authn;"
+          docker exec ${{ job.services.postgres.id }} psql -U postgres -d postgres -c "CREATE DATABASE portfolio;"
 
       - name: SQL Migrations
         run: |
