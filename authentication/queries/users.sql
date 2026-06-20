@@ -46,7 +46,7 @@ returning *;
 select u.*,
        (exists(select 1 from two_factors tf where tf.user_id = u.id))::boolean as two_factor
 from users u
-where id = @u.id;
+where u.id = @id;
 
 -- name: Users :one
 select id,
