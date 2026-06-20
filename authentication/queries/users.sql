@@ -43,10 +43,10 @@ where id = @id
 returning *;
 
 -- name: User :one
-select *,
-       (exists(select 1 from two_factors tf where tf.user_id = id))::boolean as two_factor
-from users
-where id = @id;
+select u.*,
+       (exists(select 1 from two_factors tf where tf.user_id = u.id))::boolean as two_factor
+from users u
+where id = @u.id;
 
 -- name: Users :one
 select id,
