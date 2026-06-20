@@ -3,14 +3,12 @@ name: test.yaml
 on:
   push:
     branches: [ "main" ]
-    paths:
-      - 'authentication/migrations/**'
-      - '.github/workflows/**'
+    paths-ignore:
+      - README.md
   pull_request:
     branches: [ "main" ]
-    paths:
-      - 'authentication/migrations/**'
-      - '.github/workflows/**'
+    paths-ignore:
+      - README.md
 
 jobs:
   test:
@@ -19,9 +17,9 @@ jobs:
       postgres:
         image: postgres:18-alpine
         env:
-          POSTGRES_DB: test
-          POSTGRES_USER: test
-          POSTGRES_PASSWORD: test
+          POSTGRES_DB: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
         ports:
           - 5432:5432
         options: >-
@@ -46,6 +44,20 @@ jobs:
           curl -L https://github.com/golang-migrate/migrate/releases/download/v4.19.1/migrate.linux-amd64.tar.gz | tar xvz
           sudo mv migrate /usr/local/bin/
 
+      - name: Create database
+        run: |
+          docker exec ${{ job.services.postgres.id }} psql -U postgres -d postgres -c "CREATE DATABASE authn;"
+          docker exec ${{ job.services.postgres.id }} psql -U postgres -d postgres -c "CREATE DATABASE portfolio;"
+
       - name: SQL Migrations
         run: |
-          migrate -path authentication/migrations -database "postgres://test:test@localhost:5432/test?sslmode=disable" up
+          migrate -path authentication/migrations -database "postgres://postgres:postgres@localhost:5432/authn?sslmode=disable" up
+          migrate -path portfolio/migrations -database "postgres://postgres:postgres@localhost:5432/portfolio?sslmode=disable" up
+
+      - name: Setup SQLc CLI
+        uses: sqlc-dev/setup-sqlc@v5
+        with:
+          sqlc-version: '1.31.1'
+
+      - name: Run SQLc Generate
+        run: sqlc generate
