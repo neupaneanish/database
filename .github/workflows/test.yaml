@@ -4,12 +4,12 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - 'migrations/**'
+      - 'authentication/migrations/**'
       - '.github/workflows/**'
   pull_request:
     branches: [ "main" ]
     paths:
-      - 'migrations/**'
+      - 'authentication/migrations/**'
       - '.github/workflows/**'
 
 jobs:
@@ -48,4 +48,4 @@ jobs:
 
       - name: SQL Migrations
         run: |
-          migrate -path migrations -database "postgres://test:test@localhost:5432/test?sslmode=disable" up
+          migrate -path authentication/migrations -database "postgres://test:test@localhost:5432/test?sslmode=disable" up

@@ -1,6 +1,6 @@
 -- name: CreateUser :one
-insert into users (email, username, role, status, created_by, updated_by)
-values (@email, @username, @role, @status, @created_by, @updated_by)
+insert into users (email, username, phone, role, status, created_by, updated_by)
+values (@email, @username, @phone, @role, @status, @created_by, @updated_by)
 returning *;
 
 -- name: VerifyEmail :execresult
@@ -43,22 +43,16 @@ where id = @id
 returning *;
 
 -- name: User :one
-select u.*,
-       p.name,
-       p.avatar,
-       p.phone,
-       (exists(select 1 from two_factors tf where tf.user_id = u.id))::boolean as two_factor
-from users u
-         join profiles p on u.id = p.user_id
-where u.id = @id;
+select *,
+       (exists(select 1 from two_factors tf where tf.user_id = id))::boolean as two_factor
+from users
+where id = @id;
 
 -- name: Users :one
-select u.id,
-       u.email,
-       u.username,
-       p.name,
-       p.avatar
-from users u
-         join profiles p on u.id = p.user_id
-order by p.name, u.id
+select id,
+       email,
+       username,
+       phone
+from users
+order by username
 limit @page_size;
