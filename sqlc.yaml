@@ -1,0 +1,15 @@
+version: 2
+sql:
+  - engine: postgresql
+    queries:
+      - "authentication/queries"
+      - "portfolio/queries"
+    schema:
+      - "authentication/migrations"
+      - "portfolio/migrations"
+    gen:
+      go:
+        package: "repository"
+        out: "internal/repository"
+        sql_package: "pgx/v5"
+        sql_driver: "github.com/jackc/pgx/v5"
