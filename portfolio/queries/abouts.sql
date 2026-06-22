@@ -10,4 +10,5 @@ set about      = @about,
     updated_by = @updated_by
 where user_id = @user_id
   and updated_at = @updated_at::timestamptz
-  and about is distinct from @about;
+  and about is distinct from @about
+returning *;
