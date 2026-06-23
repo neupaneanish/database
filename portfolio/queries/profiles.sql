@@ -11,3 +11,8 @@ where user_id = @user_id
   and updated_at = @updated_at::timestamptz
   and headline is distinct from @headline
 returning *;
+
+-- name: Profile :one
+select *
+from profiles
+where user_id = @user_id;

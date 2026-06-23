@@ -85,3 +85,10 @@ where user_id = @user_id
 order by (end_date is null) desc,
          end_date desc nulls last,
          start_date desc;
+
+-- name: DeleteEducation :execresult
+delete
+from educations
+where id = @id
+  and user_id = @user_id
+  and updated_at = @updated_at::timestamptz;

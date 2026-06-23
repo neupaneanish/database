@@ -15,6 +15,11 @@ where id = @id
   and updated_at = @updated_at::timestamptz
 returning *;
 
+-- name: Platform :one
+select *
+from platforms
+where id = @id;
+
 -- name: Platforms :many
 select *
 from platforms
