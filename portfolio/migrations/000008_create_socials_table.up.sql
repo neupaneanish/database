@@ -19,12 +19,8 @@ create table if not exists socials
         unique (user_id, platform_id)
 );
 
-create index if not exists idx_socials_user_id
-    on socials (user_id, platform_id);
-
 create index if not exists idx_socials_created_by
     on socials (created_by);
 
 create index if not exists idx_socials_updated_by
     on socials (updated_by);
-

@@ -1,6 +1,6 @@
 -- name: CreateProfile :execresult
 insert into profiles (user_id, name, headline, dob, created_by, updated_by)
-values (@user_id, @name, sqlc.narg('headline'), @dob, @created_by, @updated_by);
+values (@user_id, @name, @headline, @dob, @created_by, @updated_by);
 
 -- name: UpdateProfile :one
 update profiles

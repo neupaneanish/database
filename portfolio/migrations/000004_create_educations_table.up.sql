@@ -13,9 +13,6 @@ create table if not exists educations
     start_date     date             not null,
     end_date       date,
 
-    grade          numeric(5, 2),
-    grade_type     varchar(64),
-
     address        varchar(256)     not null,
     description    text,
 
@@ -29,14 +26,7 @@ create table if not exists educations
         check ( updated_at >= created_at ),
 
     constraint check_dates
-        check ( end_date is null or end_date > start_date ),
-
-    constraint check_grade_range
-        check ( grade between 0.00 and 100.00 ),
-
-    constraint check_grade_and_type_coexistence
-        check ( (grade is null and grade_type is null) or
-                (grade is not null and grade_type is not null) )
+        check ( end_date is null or end_date > start_date )
 );
 
 create index if not exists idx_educations_user_id

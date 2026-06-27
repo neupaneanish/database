@@ -15,21 +15,21 @@ values (@user_id,
         @location,
         @location_type,
         @start_date,
-        sqlc.narg('end_date'),
-        sqlc.narg('description'),
+        @end_date,
+        @description,
         @created_by,
         @updated_by)
 returning *;
 
 -- name: UpdateExperience :one
 update experiences
-set title         = coalesce(sqlc.narg('title'), title),
-    company_name  = coalesce(sqlc.narg('company_name'), company_name),
-    location      = coalesce(sqlc.narg('location'), location),
-    location_type = coalesce(sqlc.narg('location_type'), location_type),
-    start_date    = coalesce(sqlc.narg('start_date'), start_date),
-    end_date      = coalesce(sqlc.narg('end_date'), end_date),
-    description   = coalesce(sqlc.narg('description'), description),
+set title         = @title,
+    company_name  = @company_name,
+    location      = @location,
+    location_type = @location_type,
+    start_date    = @start_date,
+    end_date      = @end_date,
+    description   = @description,
     updated_at    = now(),
     updated_by    = @updated_by
 where id = @id
@@ -41,15 +41,13 @@ where id = @id
        location_type,
        start_date,
        end_date,
-       description) is distinct from (
-                                      coalesce(sqlc.narg('title'), title),
-                                      coalesce(sqlc.narg('company_name'), company_name),
-                                      coalesce(sqlc.narg('location'), location),
-                                      coalesce(sqlc.narg('location_type'), location_type),
-                                      coalesce(sqlc.narg('start_date'), start_date),
-                                      coalesce(sqlc.narg('end_date'), end_date),
-                                      coalesce(sqlc.narg('description'), description)
-    )
+       description) is distinct from (@title,
+                                      @company_name,
+                                      @location,
+                                      @location_type,
+                                      @start_date,
+                                      @end_date,
+                                      @description)
 returning *;
 
 -- name: Experience :one

@@ -13,6 +13,10 @@ set name       = coalesce(sqlc.narg('name'), name),
     updated_by = @updated_by
 where id = @id
   and updated_at = @updated_at::timestamptz
+  and (name, url, logo_url, color) is distinct from (coalesce(sqlc.narg('name'), name),
+                                                     coalesce(sqlc.narg('url'), url),
+                                                     coalesce(sqlc.narg('logo_url'), logo_url),
+                                                     coalesce(sqlc.narg('color'), color))
 returning *;
 
 -- name: Platform :one
