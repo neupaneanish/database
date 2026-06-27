@@ -1,7 +1,6 @@
 create table abouts
 (
-    id         uuid primary key not null default uuidv7(),
-    user_id    uuid unique      not null,
+    user_id    uuid primary key not null,
     about      text             not null,
     created_at timestamptz      not null default now(),
     created_by uuid             not null,

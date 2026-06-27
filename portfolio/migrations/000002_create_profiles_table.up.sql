@@ -1,7 +1,6 @@
 create table profiles
 (
-    id         uuid primary key not null default uuidv7(),
-    user_id    uuid unique      not null,
+    user_id    uuid primary key not null,
 
     name       varchar(64)      not null,
     headline   varchar(64),

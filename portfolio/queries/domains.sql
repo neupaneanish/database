@@ -11,6 +11,7 @@ set verified_at = now(),
 where id = @id
   and user_id = @user_id
   and verified_at is null
+  and updated_at = @updated_at::timestamptz
 returning *;
 
 -- name: Domain :one
@@ -29,4 +30,5 @@ where user_id = @user_id;
 delete
 from domains
 where id = @id
-  and user_id = @user_id;
+  and user_id = @user_id
+  and updated_at = @updated_at::timestamptz;
