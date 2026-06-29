@@ -10,7 +10,8 @@ order by id desc
 limit @history_limit;
 
 -- name: Credential :one
-select password
-from credentials
+select c.password, u.email
+from credentials c
+         join public.users u on c.user_id = u.id
 where user_id = @user_id
 order by id desc;
