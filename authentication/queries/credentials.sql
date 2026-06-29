@@ -14,4 +14,4 @@ select c.password, u.email
 from credentials c
          join public.users u on c.user_id = u.id
 where user_id = @user_id
-order by id desc;
+order by c.id desc;
