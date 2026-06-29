@@ -8,3 +8,9 @@ from credentials
 where user_id = @user_id
 order by id desc
 limit @history_limit;
+
+-- name: Credential :one
+select password
+from credentials
+where user_id = @user_id
+order by id desc;
