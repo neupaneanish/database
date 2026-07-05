@@ -7,11 +7,10 @@ update recovery_codes
 set used_at = now()
 where id = @id
   and user_id = @user_id
-  and used_at is null
-  and updated_at = @updated_at::timestamptz;
+  and used_at is null;
 
 -- name: RecoveryCodes :many
-select id, code, updated_at
+select id, code
 from recovery_codes
 where user_id = @user_id
   and used_at is null;
@@ -21,3 +20,8 @@ select count(*)
 from recovery_codes
 where user_id = @user_id
   and used_at is null;
+
+-- name: DeleteRecoveryCodes :execresult
+delete
+from recovery_codes
+where user_id = @user_id;
