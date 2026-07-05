@@ -1,7 +1,6 @@
 create table if not exists two_factors
 (
-    id           uuid primary key not null default uuidv7(),
-    user_id      uuid unique      not null references users (id) on delete cascade,
+    user_id      uuid primary key not null references users (id) on delete cascade,
 
     secret       bytea            not null,
 
