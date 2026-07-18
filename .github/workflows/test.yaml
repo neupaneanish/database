@@ -23,6 +23,12 @@ jobs:
           go-version: stable
           cache: true
 
+      - name: Install dependencies
+        run: go mod download
+
+      - name: Run tests
+        run: go test -v ./...
+
       - name: Setup SQLc CLI
         uses: sqlc-dev/setup-sqlc@v5
         with:
@@ -30,9 +36,3 @@ jobs:
 
       - name: Run SQLc Generate
         run: sqlc generate
-
-      - name: Install dependencies
-        run: go mod download
-
-      - name: Run tests
-        run: go test -v ./...
