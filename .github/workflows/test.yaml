@@ -13,46 +13,21 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:18-alpine
-        env:
-          POSTGRES_DB: postgres
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Cache Go Migrate CLI
-        id: cache-migrate
-        uses: actions/cache@v5
+      - name: Setup Go
+        uses: actions/setup-go@v6
         with:
-          path: /usr/local/bin/migrate
-          key: ${{ runner.os }}-migrate-v4.19.1
+          go-version: stable
+          cache: true
 
-      - name: Install Go Migrate CLI
-        if: steps.cache-migrate.outputs.cache-hit != 'true'
-        run: |
-          curl -L https://github.com/golang-migrate/migrate/releases/download/v4.19.1/migrate.linux-amd64.tar.gz | tar xvz
-          sudo mv migrate /usr/local/bin/
+      - name: Install dependencies
+        run: go mod download
 
-      - name: Create database
-        run: |
-          docker exec ${{ job.services.postgres.id }} psql -U postgres -d postgres -c "CREATE DATABASE authn;"
-          docker exec ${{ job.services.postgres.id }} psql -U postgres -d postgres -c "CREATE DATABASE portfolio;"
-
-      - name: SQL Migrations
-        run: |
-          migrate -path authentication/migrations -database "postgres://postgres:postgres@localhost:5432/authn?sslmode=disable" up
-          migrate -path portfolio/migrations -database "postgres://postgres:postgres@localhost:5432/portfolio?sslmode=disable" up
+      - name: Run tests
+        run: go test -v ./...
 
       - name: Setup SQLc CLI
         uses: sqlc-dev/setup-sqlc@v5
