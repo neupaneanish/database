@@ -1,4 +1,4 @@
-version: 2
+version: "2"
 sql:
   - engine: postgresql
     queries:
@@ -22,3 +22,39 @@ sql:
 
         omit_unused_structs: true
         query_parameter_limit: 0
+
+        overrides:
+          - db_type: "uuid"
+            go_type:
+              import: "uuid"
+              type: "UUID"
+
+          - db_type: "timestamp"
+            go_type:
+              type: "time.Time"
+
+          - db_type: "timestamp"
+            nullable: true
+            go_type:
+              type: "time.Time"
+              pointer: true
+
+          - db_type: "timestamptz"
+            go_type:
+              type: "time.Time"
+
+          - db_type: "timestamptz"
+            nullable: true
+            go_type:
+              type: "time.Time"
+              pointer: true
+
+          - db_type: "date"
+            go_type:
+              type: "time.Time"
+
+          - db_type: "date"
+            nullable: true
+            go_type:
+              type: "time.Time"
+              pointer: true
