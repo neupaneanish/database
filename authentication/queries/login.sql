@@ -10,8 +10,7 @@ select u.id,
 from users u
          join lateral ( select c.password
                         from credentials c
-                        where u.id = c.user_id
+                        where c.user_id = u.id
                         order by c.id desc
                         limit 1) as c on true
-where email = @email
-limit 1;
+where email = @email;
