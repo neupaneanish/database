@@ -40,17 +40,7 @@ set status     = @status,
 where id = @id
   and updated_at = @updated_at
   and @status is distinct from status
-returning id,
-    email,
-    username,
-    phone,
-    role,
-    status,
-    email_verified_at,
-    created_at,
-    created_by,
-    updated_at,
-    updated_by;
+returning id, status, updated_at, updated_by;
 
 -- name: UpdateRole :one
 update users
@@ -60,17 +50,7 @@ set role       = @role,
 where id = @id
   and updated_at = @updated_at
   and @role is distinct from role
-returning id,
-    email,
-    username,
-    phone,
-    role,
-    status,
-    email_verified_at,
-    created_at,
-    created_by,
-    updated_at,
-    updated_by;
+returning id, role, updated_at, updated_by;
 
 -- name: User :one
 select u.id,
@@ -79,7 +59,7 @@ select u.id,
        u.phone,
        u.role,
        u.status,
-       u.email_verified_at,
+       (u.email_verified_at is not null)::boolean                              as email_verified,
        u.created_at,
        u.created_by,
        u.updated_at,
@@ -95,10 +75,7 @@ from users u
 where u.id = @id;
 
 -- name: Users :many
-select id,
-       email,
-       username,
-       phone
+select id, username, phone
 from users
 order by username
 limit @page_size;
