@@ -3,7 +3,7 @@ create table profiles
     user_id    uuid primary key not null,
 
     name       varchar(64)      not null,
-    headline   varchar(64),
+    title      varchar(64)      not null,
     dob        date             not null,
 
     created_at timestamptz      not null default now(),

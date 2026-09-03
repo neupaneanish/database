@@ -22,7 +22,7 @@ func setupEnv(t *testing.T, postgres *tests.Database, name string) {
 }
 
 func TestNewService(t *testing.T) {
-	databases := []string{internal.Authentication, internal.Portfolio}
+	databases := []string{internal.Authentication, internal.Profile}
 	postgres, cleanup, postgresErr := tests.Postgres(databases)
 
 	require.NoError(t, postgresErr)
@@ -36,9 +36,9 @@ func TestNewService(t *testing.T) {
 		require.Error(t, err)
 	})
 
-	t.Run("Invalid URL portfolio", func(t *testing.T) {
+	t.Run("Invalid URL profile", func(t *testing.T) {
 		env := &internal.Env{
-			Service: internal.Portfolio,
+			Service: internal.Profile,
 			URL:     "postgres://localhost:5432/database",
 		}
 		err := internal.NewService(env)
@@ -68,7 +68,7 @@ func TestNewService(t *testing.T) {
 	})
 
 	t.Run("Portfolio", func(t *testing.T) {
-		setupEnv(t, postgres, internal.Portfolio)
+		setupEnv(t, postgres, internal.Profile)
 		env, envErr := internal.LoadEnv()
 		require.NoError(t, envErr)
 		err := internal.NewService(env)

@@ -1,7 +1,7 @@
 -- name: CreateDomain :one
 insert into domains (user_id, url, txt, created_by, updated_by)
 values (@user_id, @url, @txt, @created_by, @updated_by)
-returning *;
+returning id;
 
 -- name: VerifyDomain :one
 update domains
@@ -12,17 +12,19 @@ where id = @id
   and user_id = @user_id
   and verified_at is null
   and updated_at = @updated_at::timestamptz
-returning *;
+returning id;
 
--- name: Domain :one
-select *
-from domains
-where id = @id
-  and user_id = @user_id
-order by url;
 
 -- name: Domains :many
-select *
+select id,
+       user_id,
+       txt,
+       url,
+       (verified_at is not null)::boolean as verified,
+       created_at,
+       created_by,
+       updated_at,
+       updated_by
 from domains
 where user_id = @user_id;
 

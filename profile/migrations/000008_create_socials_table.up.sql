@@ -4,7 +4,7 @@ create table if not exists socials
     user_id     uuid             not null,
     platform_id uuid             not null references platforms (id) on delete cascade,
 
-    username    citext           not null,
+    username    text             not null,
 
     created_at  timestamptz      not null default now(),
     created_by  uuid             not null,

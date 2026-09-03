@@ -1,7 +1,7 @@
 -- name: CreateSocial :one
 insert into socials (user_id, platform_id, username, created_by, updated_by)
 values (@user_id, @platform_id, @username, @created_by, @updated_by)
-returning *;
+returning id;
 
 -- name: UpdateSocial :one
 update socials
@@ -12,11 +12,12 @@ where id = @id
   and user_id = @user_id
   and updated_at = @updated_at::timestamptz
   and username is distinct from @username
-returning *;
+returning id;
 
 -- name: Socials :many
 select s.id,
        s.user_id,
+       s.platform_id,
        s.username,
        s.created_at,
        s.created_by,
@@ -24,6 +25,7 @@ select s.id,
        s.updated_by,
        p.name,
        p.url,
+       p.url_suffix,
        p.logo_url,
        p.color
 from socials s
