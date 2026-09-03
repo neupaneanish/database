@@ -3,10 +3,10 @@ sql:
   - engine: postgresql
     queries:
       - "authentication/queries"
-      - "portfolio/queries"
+      - "profile/queries"
     schema:
       - "authentication/migrations"
-      - "portfolio/migrations"
+      - "profile/migrations"
     gen:
       go:
         package: "repository"

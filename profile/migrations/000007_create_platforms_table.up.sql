@@ -4,6 +4,7 @@ create table if not exists platforms
 
     name       citext unique    not null,
     url        citext unique    not null,
+    url_suffix text             not null default '/',
     logo_url   text             not null,
     color      char(7)          not null,
 

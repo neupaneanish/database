@@ -23,7 +23,7 @@ values (@user_id,
         @description,
         @created_by,
         @updated_by)
-returning *;
+returning id;
 
 -- name: UpdateEducation :one
 update educations
@@ -58,7 +58,7 @@ where id = @id
                                       @end_date,
                                       @address,
                                       @description)
-returning *;
+returning id;
 
 -- name: Education :one
 select *
@@ -67,7 +67,7 @@ where id = @id
   and user_id = @user_id;
 
 -- name: Educations :many
-select *
+select id, user_id, school, start_date, end_date
 from educations
 where user_id = @user_id
 order by (end_date is null) desc,

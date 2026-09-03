@@ -11,7 +11,7 @@ import (
 
 const (
 	Authentication = "authentication"
-	Portfolio      = "portfolio"
+	Profile        = "profile"
 )
 
 type Env struct {

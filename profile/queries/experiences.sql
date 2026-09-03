@@ -19,7 +19,7 @@ values (@user_id,
         @description,
         @created_by,
         @updated_by)
-returning *;
+returning id;
 
 -- name: UpdateExperience :one
 update experiences
@@ -48,10 +48,10 @@ where id = @id
                                       @start_date,
                                       @end_date,
                                       @description)
-returning *;
+returning id;
 
 -- name: Experience :one
-select *
+select id, user_id, title, company_name, start_date, end_date
 from experiences
 where id = @id
   and user_id = @user_id;
