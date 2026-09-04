@@ -67,7 +67,7 @@ where id = @id
   and user_id = @user_id;
 
 -- name: Educations :many
-select id, user_id, school, start_date, end_date
+select id, user_id, school, degree, start_date, end_date
 from educations
 where user_id = @user_id
 order by (end_date is null) desc,
