@@ -51,13 +51,13 @@ where id = @id
 returning id;
 
 -- name: Experience :one
-select id, user_id, title, company_name, start_date, end_date
+select *
 from experiences
 where id = @id
   and user_id = @user_id;
 
 -- name: Experiences :many
-select *
+select id, user_id, title, company_name, start_date, end_date
 from experiences
 where user_id = @user_id
 order by (end_date is null) desc,
