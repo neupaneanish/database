@@ -49,4 +49,5 @@ order by name;
 -- name: DeletePlatform :execresult
 delete
 from platforms
-where id = @id;
+where id = @id
+  and updated_at = @updated_at::timestamptz;
