@@ -1,6 +1,6 @@
 -- name: CreateDomain :one
-insert into domains (user_id, url, txt, created_by, updated_by)
-values (@user_id, @url, @txt, @created_by, @updated_by)
+insert into domains (user_id, name_server_id, fqdn, txt, created_by, updated_by)
+values (@user_id, @name_server_id, @fqdn, @txt, @created_by, @updated_by)
 returning id;
 
 -- name: VerifyDomain :one
@@ -16,16 +16,18 @@ returning id;
 
 
 -- name: Domains :many
-select id,
-       user_id,
-       txt,
-       url,
-       (verified_at is not null)::boolean as verified,
-       created_at,
-       created_by,
-       updated_at,
-       updated_by
-from domains
+select d.id,
+       d.user_id,
+       d.txt,
+       d.fqdn,
+       concat(ns.cname, '.', ns.domain)::text as name_server,
+       (d.verified_at is not null)::boolean   as verified,
+       d.created_at,
+       d.created_by,
+       d.updated_at,
+       d.updated_by
+from domains d
+         inner join name_servers ns on ns.id = d.name_server_id
 where user_id = @user_id;
 
 -- name: DeleteDomain :execresult
