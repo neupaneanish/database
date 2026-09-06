@@ -1,20 +1,35 @@
 -- name: CreatePlatform :one
-insert into platforms (name, url, logo_url, color, url_suffix, created_by, updated_by)
-values (@name, @url, @logo_url, @color, @url_suffix, @created_by, @updated_by)
+insert into platforms (name, url, url_suffix, logo_url, logo_url_suffix, logo_url_path, color, created_by, updated_by)
+values (@name, @url, @url_suffix, @logo_url, @logo_url_suffix, @logo_url_path, @color, @created_by, @updated_by)
 returning id;
 
 -- name: UpdatePlatform :one
 update platforms
-set name       = @name,
-    url        = @url,
-    logo_url   = @logo_url,
-    color      = @color,
-    url_suffix = @url_suffix,
-    updated_at = now(),
-    updated_by = @updated_by
+set name            = @name,
+    url             = @url,
+    url_suffix      = @url_suffix,
+    logo_url        = @logo_url,
+    logo_url_suffix = @logo_url_suffix,
+    logo_url_path   = @logo_url_path,
+    color           = @color,
+    updated_at      = now(),
+    updated_by      = @updated_by
 where id = @id
   and updated_at = @updated_at::timestamptz
-  and (name, url, logo_url, color, url_suffix) is distinct from (@name, @url, @logo_url, @color, @url_suffix)
+  and (name,
+       url,
+       url_suffix,
+       logo_url,
+       logo_url_suffix,
+       logo_url_path,
+       color) is distinct from (
+                                @name,
+                                @url,
+                                @url_suffix,
+                                @logo_url,
+                                @logo_url_suffix,
+                                @logo_url_path,
+                                @color)
 returning id;
 
 -- name: Platform :one
@@ -23,7 +38,12 @@ from platforms
 where id = @id;
 
 -- name: Platforms :many
-select id, name, logo_url, color, url_suffix
+select id,
+       name,
+       url,
+       url_suffix,
+       concat(logo_url, logo_url_suffix, logo_url_path)::text as logo,
+       color
 from platforms
 order by name;
 

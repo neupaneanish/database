@@ -24,9 +24,8 @@ select s.id,
        s.updated_at,
        s.updated_by,
        p.name,
-       p.url,
-       p.url_suffix,
-       p.logo_url,
+       concat(p.url, p.url_suffix)::text                            as url,
+       concat(p.logo_url, p.logo_url_suffix, p.logo_url_path)::text as logo,
        p.color
 from socials s
          join platforms p on s.platform_id = p.id
