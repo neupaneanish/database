@@ -1,4 +1,4 @@
--- name: CreateProfile :execresult
+-- name: CreateProfile :exec
 insert into profiles (user_id, name, title, dob, created_by, updated_by)
 values (@user_id, @name, @title, @dob, @created_by, @updated_by);
 
