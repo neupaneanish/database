@@ -15,14 +15,13 @@ where active = true
 order by random()
 limit 1;
 
--- name: UpdateNameServer :one
+-- name: UpdateNameServer :execresult
 update name_servers
 set domain = @domain,
     cname  = @cname,
     active = @active
 where id = @id
-  and updated_at = @updated_at::timestamptz
-returning id;
+  and updated_at = @updated_at::timestamptz;
 
 -- name: DeleteNameServer :execresult
 delete

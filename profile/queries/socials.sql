@@ -3,7 +3,7 @@ insert into socials (user_id, platform_id, username, created_by, updated_by)
 values (@user_id, @platform_id, @username, @created_by, @updated_by)
 returning id;
 
--- name: UpdateSocial :one
+-- name: UpdateSocial :execresult
 update socials
 set username   = @username,
     updated_at = now(),
@@ -11,8 +11,7 @@ set username   = @username,
 where id = @id
   and user_id = @user_id
   and updated_at = @updated_at::timestamptz
-  and username is distinct from @username
-returning id;
+  and username is distinct from @username;
 
 -- name: Socials :many
 select s.id,

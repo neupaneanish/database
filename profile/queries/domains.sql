@@ -3,7 +3,7 @@ insert into domains (user_id, name_server_id, fqdn, txt, created_by, updated_by)
 values (@user_id, @name_server_id, @fqdn, @txt, @created_by, @updated_by)
 returning id;
 
--- name: VerifyDomain :one
+-- name: VerifyDomain :execresult
 update domains
 set verified_at = now(),
     updated_at  = now(),
@@ -11,8 +11,7 @@ set verified_at = now(),
 where id = @id
   and user_id = @user_id
   and verified_at is null
-  and updated_at = @updated_at::timestamptz
-returning id;
+  and updated_at = @updated_at::timestamptz;
 
 
 -- name: Domains :many

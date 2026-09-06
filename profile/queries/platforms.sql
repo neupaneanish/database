@@ -3,7 +3,7 @@ insert into platforms (name, url, url_suffix, logo_url, logo_url_suffix, logo_ur
 values (@name, @url, @url_suffix, @logo_url, @logo_url_suffix, @logo_url_path, @color, @created_by, @updated_by)
 returning id;
 
--- name: UpdatePlatform :one
+-- name: UpdatePlatform :execresult
 update platforms
 set name            = @name,
     url             = @url,
@@ -29,8 +29,7 @@ where id = @id
                                 @logo_url,
                                 @logo_url_suffix,
                                 @logo_url_path,
-                                @color)
-returning id;
+                                @color);
 
 -- name: Platform :one
 select *

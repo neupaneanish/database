@@ -21,7 +21,7 @@ values (@user_id,
         @updated_by)
 returning id;
 
--- name: UpdateExperience :one
+-- name: UpdateExperience :execresult
 update experiences
 set title         = @title,
     company_name  = @company_name,
@@ -47,8 +47,7 @@ where id = @id
                                       @location_type,
                                       @start_date,
                                       @end_date,
-                                      @description)
-returning id;
+                                      @description);
 
 -- name: Experience :one
 select *
