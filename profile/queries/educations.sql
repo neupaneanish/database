@@ -25,7 +25,7 @@ values (@user_id,
         @updated_by)
 returning id;
 
--- name: UpdateEducation :one
+-- name: UpdateEducation :execresult
 update educations
 set school         = @school,
     degree         = @degree,
@@ -57,8 +57,7 @@ where id = @id
                                       @start_date,
                                       @end_date,
                                       @address,
-                                      @description)
-returning id;
+                                      @description);
 
 -- name: Education :one
 select *
