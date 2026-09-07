@@ -22,7 +22,7 @@ set domain = @domain,
     active = @active
 where id = @id
   and updated_at = @updated_at::timestamptz
-  and (doamin, cname, active) is distinct from (@domain, @cname, @active);
+  and (domain, cname, active) is distinct from (@domain, @cname, @active);
 
 -- name: DeleteNameServer :execresult
 delete
