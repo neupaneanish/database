@@ -1,30 +1,31 @@
 -- name: CreateNameServer :one
-insert into name_servers(domain, cname, created_by, updated_by)
+insert into nameservers(domain, cname, created_by, updated_by)
 values (@domain, @cname, @created_by, @updated_by)
 returning id;
 
 -- name: NameServers :many
 select *
-from name_servers
+from nameservers
 order by created_at desc;
 
 -- name: NameServer :one
 select id
-from name_servers
+from nameservers
 where active = true
 order by random()
 limit 1;
 
 -- name: UpdateNameServer :execresult
-update name_servers
+update nameservers
 set domain = @domain,
     cname  = @cname,
     active = @active
 where id = @id
-  and updated_at = @updated_at::timestamptz;
+  and updated_at = @updated_at::timestamptz
+  and (doamin, cname, active) is distinct from (@domain, @cname, @active);
 
 -- name: DeleteNameServer :execresult
 delete
-from name_servers
+from nameservers
 where id = @id
   and updated_at = @updated_at::timestamptz;

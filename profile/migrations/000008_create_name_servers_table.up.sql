@@ -1,4 +1,4 @@
-create table if not exists name_servers
+create table if not exists nameservers
 (
     id         uuid primary key not null default uuidv7(),
 
@@ -21,7 +21,7 @@ create table if not exists name_servers
 );
 
 create index if not exists idx_name_servers_created_by
-    on name_servers (created_by);
+    on nameservers (created_by);
 
 create index if not exists idx_name_servers_updated_by
-    on name_servers (updated_by);
+    on nameservers (updated_by);

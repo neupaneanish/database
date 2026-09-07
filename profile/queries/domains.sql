@@ -26,7 +26,7 @@ select d.id,
        d.updated_at,
        d.updated_by
 from domains d
-         inner join name_servers ns on ns.id = d.name_server_id
+         inner join nameservers ns on ns.id = d.name_server_id
 where user_id = @user_id;
 
 -- name: DeleteDomain :execresult
