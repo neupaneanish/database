@@ -1,6 +1,6 @@
 -- name: CreateDomain :one
-insert into domains (user_id, name_server_id, fqdn, txt, created_by, updated_by)
-values (@user_id, @name_server_id, @fqdn, @txt, @created_by, @updated_by)
+insert into domains (user_id, nameserver_id, fqdn, txt, created_by, updated_by)
+values (@user_id, @nameserver_id, @fqdn, @txt, @created_by, @updated_by)
 returning id;
 
 -- name: VerifyDomain :execresult
