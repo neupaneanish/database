@@ -1,6 +1,6 @@
 -- name: CreateDomain :one
-insert into domains (user_id, name_server_id, fqdn, txt, created_by, updated_by)
-values (@user_id, @name_server_id, @fqdn, @txt, @created_by, @updated_by)
+insert into domains (user_id, nameserver_id, fqdn, txt, created_by, updated_by)
+values (@user_id, @nameserver_id, @fqdn, @txt, @created_by, @updated_by)
 returning id;
 
 -- name: VerifyDomain :execresult
@@ -26,7 +26,7 @@ select d.id,
        d.updated_at,
        d.updated_by
 from domains d
-         inner join name_servers ns on ns.id = d.name_server_id
+         inner join nameservers ns on ns.id = d.name_server_id
 where user_id = @user_id;
 
 -- name: DeleteDomain :execresult
