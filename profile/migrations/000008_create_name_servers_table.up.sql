@@ -20,8 +20,8 @@ create table if not exists nameservers
         unique (domain, cname)
 );
 
-create index if not exists idx_name_servers_created_by
+create index if not exists idx_nameservers_created_by
     on nameservers (created_by);
 
-create index if not exists idx_name_servers_updated_by
+create index if not exists idx_nameservers_updated_by
     on nameservers (updated_by);
