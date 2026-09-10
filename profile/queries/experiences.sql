@@ -1,4 +1,4 @@
--- name: CreateExperience :one
+-- name: CreateExperience :exec
 insert into experiences(user_id,
                         title,
                         company_name,
@@ -18,10 +18,9 @@ values (@user_id,
         @end_date,
         @description,
         @created_by,
-        @updated_by)
-returning id;
+        @updated_by);
 
--- name: UpdateExperience :execresult
+-- name: UpdateExperience :execrows
 update experiences
 set title         = @title,
     company_name  = @company_name,
@@ -63,7 +62,7 @@ order by (end_date is null) desc,
          end_date desc nulls last,
          start_date desc;
 
--- name: DeleteExperience :execresult
+-- name: DeleteExperience :execrows
 delete
 from experiences
 where id = @id

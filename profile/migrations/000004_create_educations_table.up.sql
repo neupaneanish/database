@@ -16,6 +16,8 @@ create table if not exists educations
     address        varchar(256)     not null,
     description    text,
 
+    search         tsvector generated always as (to_tsvector('simple', school || ' ' || degree)) stored,
+
     created_at     timestamptz      not null default now(),
     created_by     uuid             not null,
 
@@ -28,6 +30,15 @@ create table if not exists educations
     constraint check_dates
         check ( end_date is null or end_date > start_date )
 );
+
+create index if not exists idx_educations_search
+    on educations using gin (search);
+
+create index if not exists idx_educations_school_trgm
+    on educations using gin (school gin_trgm_ops);
+
+create index if not exists idx_educations_degree_trgm
+    on educations using gin (degree gin_trgm_ops);
 
 create index if not exists idx_educations_user_id
     on educations (user_id, (end_date is null) desc, end_date desc nulls last, start_date desc);

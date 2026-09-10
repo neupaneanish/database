@@ -1,4 +1,4 @@
--- name: CreateEducation :one
+-- name: CreateEducation :exec
 insert into educations (user_id,
                         school,
                         degree,
@@ -22,10 +22,9 @@ values (@user_id,
         @address,
         @description,
         @created_by,
-        @updated_by)
-returning id;
+        @updated_by);
 
--- name: UpdateEducation :execresult
+-- name: UpdateEducation :execrows
 update educations
 set school         = @school,
     degree         = @degree,
@@ -73,7 +72,7 @@ order by (end_date is null) desc,
          end_date desc nulls last,
          start_date desc;
 
--- name: DeleteEducation :execresult
+-- name: DeleteEducation :execrows
 delete
 from educations
 where id = @id
