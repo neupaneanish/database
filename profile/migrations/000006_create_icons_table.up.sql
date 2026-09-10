@@ -9,7 +9,6 @@ create table if not exists icons
 
     url         citext           not null,
     slug        citext           not null,
-    variant     citext,
 
     color       char(7)          not null,
 
@@ -42,13 +41,8 @@ create unique index unique_icons_site_no_suffix
     on icons (site)
     where site_suffix is null;
 
-create unique index unique_url_slug_with_variant
-    on icons (url, slug, variant)
-    where variant is not null;
-
-create unique index unique_url_slug_no_variant
-    on icons (url, slug)
-    where variant is null;
+create unique index unique_url_slug
+    on icons (url, slug);
 
 create index if not exists idx_icons_created_by
     on icons (created_by);
