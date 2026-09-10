@@ -1,9 +1,8 @@
--- name: CreateSocial :one
-insert into socials (user_id, platform_id, username, created_by, updated_by)
-values (@user_id, @platform_id, @username, @created_by, @updated_by)
-returning id;
+-- name: CreateSocial :exec
+insert into socials (user_id, icon_id, username, created_by, updated_by)
+values (@user_id, @icon_id, @username, @created_by, @updated_by);
 
--- name: UpdateSocial :execresult
+-- name: UpdateSocial :execrows
 update socials
 set username   = @username,
     updated_at = now(),
@@ -16,22 +15,31 @@ where id = @id
 -- name: Socials :many
 select s.id,
        s.user_id,
-       s.platform_id,
+       s.icon_id,
        s.username,
        s.created_at,
        s.created_by,
        s.updated_at,
        s.updated_by,
-       p.name,
-       concat(p.url, p.url_suffix)::text                            as url,
-       concat(p.logo_url, p.logo_url_suffix, p.logo_url_path)::text as logo,
-       p.color
+       i.name,
+       concat('https://', i.site, '/', i.site_suffix)::text as site,
+       concat('https://', i.url, '/', i.slug)::text         as logo
 from socials s
-         join platforms p on s.platform_id = p.id
+         join icons i on s.icon_id = i.id
 where s.user_id = @user_id
-order by p.name;
+order by i.name;
 
--- name: DeleteSocial :execresult
+-- name: SocialIcons :many
+select i.id,
+       i.name,
+       concat('https://', i.url, '/', i.slug) as url
+from icons i
+         left join socials s on s.icon_id = i.id and s.user_id = @user_id
+where i.site_suffix is not null
+  and s.id is null
+order by i.name;
+
+-- name: DeleteSocial :execrows
 delete
 from socials
 where id = @id

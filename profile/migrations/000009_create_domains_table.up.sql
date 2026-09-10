@@ -6,8 +6,10 @@ create table if not exists domains
     nameserver_id uuid             not null references nameservers (id) on delete restrict,
 
     fqdn          citext unique    not null,
-    txt           text             not null,
+    txt           citext unique    not null,
     verified_at   timestamptz,
+
+    search        tsvector generated always as (to_tsvector('simple', fqdn)) stored,
 
     created_at    timestamptz      not null default now(),
     created_by    uuid             not null,
@@ -21,6 +23,12 @@ create table if not exists domains
     constraint check_verified_at
         check ( verified_at is null or verified_at > created_at )
 );
+
+create index if not exists idx_domains_search
+    on domains using gin (search);
+
+create index if not exists idx_experiences_fqdn_trgm
+    on domains using gin (fqdn gin_trgm_ops);
 
 create index if not exists idx_domains_user_id
     on domains (user_id);
