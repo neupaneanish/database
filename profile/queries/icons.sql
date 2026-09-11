@@ -12,7 +12,7 @@ set name        = @name,
     color       = @color
 where id = @id
   and updated_at = @updated_at::timestamptz
-  and (name, site, site_suffix, url, slug, variant, color) is distinct from (@name, @site, @site_suffix, @url, @slug, @variant, @color);
+  and (name, site, site_suffix, url, slug, color) is distinct from (@name, @site, @site_suffix, @url, @slug, @color);
 
 -- name: Icon :one
 select id,
@@ -38,6 +38,6 @@ where id = @id
 -- name: Icons :many
 select id,
        name,
-       concat('https://', url, '/', slug) as url
+       concat('https://', url, '/', slug)::text as icon
 from icons
 order by name;
