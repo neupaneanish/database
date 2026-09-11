@@ -1,6 +1,7 @@
--- name: CreateSocial :exec
+-- name: CreateSocial :one
 insert into socials (user_id, icon_id, username, created_by, updated_by)
-values (@user_id, @icon_id, @username, @created_by, @updated_by);
+values (@user_id, @icon_id, @username, @created_by, @updated_by)
+returning id;
 
 -- name: UpdateSocial :execrows
 update socials
