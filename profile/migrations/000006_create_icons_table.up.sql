@@ -21,10 +21,7 @@ create table if not exists icons
     updated_by  uuid             not null,
 
     constraint check_created_updated_at
-        check ( updated_at >= created_at ),
-
-    constraint unique_icons_site_suffix
-        unique (site, site_suffix)
+        check ( updated_at >= created_at )
 );
 
 create index if not exists idx_icons_search
