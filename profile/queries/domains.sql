@@ -1,4 +1,4 @@
--- name: CreateDomain :exec
+-- name: CreateDomain :one
 insert into domains (user_id, nameserver_id, fqdn, txt, created_by, updated_by)
 values (@user_id, @nameserver_id, @fqdn, @txt, @created_by, @updated_by)
 returning id;

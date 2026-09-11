@@ -1,6 +1,7 @@
--- name: CreateNameserver :exec
+-- name: CreateNameserver :one
 insert into nameservers(ip, ip_type, created_by, updated_by)
-values (@ip, @ip_type, @created_by, @updated_by);
+values (@ip, @ip_type, @created_by, @updated_by)
+returning id;
 
 -- name: Nameservers :many
 select *

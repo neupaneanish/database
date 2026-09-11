@@ -1,4 +1,4 @@
--- name: CreateExperience :exec
+-- name: CreateExperience :one
 insert into experiences(user_id,
                         title,
                         company_name,
@@ -18,7 +18,8 @@ values (@user_id,
         @end_date,
         @description,
         @created_by,
-        @updated_by);
+        @updated_by)
+returning id;
 
 -- name: UpdateExperience :execrows
 update experiences

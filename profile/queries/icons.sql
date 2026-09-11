@@ -1,6 +1,7 @@
--- name: CreateIcon :exec
+-- name: CreateIcon :one
 insert into icons (name, site, site_suffix, url, slug, color, created_by, updated_by)
-values (@name, @site, @site_suffix, @url, @slug, @color, @created_by, @updated_by);
+values (@name, @site, @site_suffix, @url, @slug, @color, @created_by, @updated_by)
+returning id;
 
 -- name: UpdateIcon :execrows
 update icons

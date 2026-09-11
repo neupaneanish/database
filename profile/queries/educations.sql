@@ -1,4 +1,4 @@
--- name: CreateEducation :exec
+-- name: CreateEducation :one
 insert into educations (user_id,
                         school,
                         degree,
@@ -22,7 +22,8 @@ values (@user_id,
         @address,
         @description,
         @created_by,
-        @updated_by);
+        @updated_by)
+returning id;
 
 -- name: UpdateEducation :execrows
 update educations
