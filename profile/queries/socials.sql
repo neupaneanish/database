@@ -27,7 +27,7 @@ select s.id,
 from socials s
          join icons i on s.icon_id = i.id
 where s.user_id = @user_id
-  and i.site_suffiex is not null
+  and i.site_suffix is not null
 order by i.name;
 
 -- name: SocialIcons :many
