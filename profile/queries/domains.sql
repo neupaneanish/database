@@ -14,7 +14,7 @@ where id = @id
   and updated_at = @updated_at::timestamptz;
 
 -- name: Domain :one
-select d.id, d.fqdn, d.txt, ns.ip_type, ns.ip
+select d.id, d.fqdn, d.txt, ns.ip_type, ns.ip, d.updated_at
 from domains d
          inner join nameservers ns on ns.id = d.nameserver_id
 where d.id = @id
