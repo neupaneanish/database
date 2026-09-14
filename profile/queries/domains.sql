@@ -43,4 +43,5 @@ delete
 from domains
 where id = @id
   and user_id = @user_id
+  and fqdn = @fqdn
   and updated_at = @updated_at::timestamptz;
