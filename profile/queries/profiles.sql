@@ -23,7 +23,7 @@ select exists(select 1
               from profiles
               where user_id = @user_id) as profile,
        exists(select 1
-              from about
+              from abouts
               where user_id = @user_id) as about,
        exists(select 1
               from educations
