@@ -20,17 +20,17 @@ where user_id = @user_id;
 
 -- name: Exists :one
 select exists(select 1
-              from profiles
-              where user_id = @user_id) as profile,
+              from profiles p
+              where p.user_id = @user_id) as profile,
        exists(select 1
-              from abouts
-              where user_id = @user_id) as about,
+              from abouts a
+              where a.user_id = @user_id) as about,
        exists(select 1
-              from educations
-              where user_id = @user_id) as educations,
+              from educations edu
+              where edu.user_id = @user_id) as educations,
        exists(select 1
-              from experiences
-              where user_id = @user_id) as experiences,
+              from experiences exp
+              where exp.user_id = @user_id) as experiences,
        exists(select 1
-              from socials
-              where user_id = @user_id) as socials;
+              from socials s
+              where s.user_id = @user_id) as socials;
