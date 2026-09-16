@@ -18,7 +18,19 @@ select *
 from profiles
 where user_id = @user_id;
 
--- name: CheckProfile :one
+-- name: Exists :one
 select exists(select 1
-              from profiles
-              where user_id = @user_id) as profile_exists;
+              from profiles p
+              where p.user_id = @user_id) as profile,
+       exists(select 1
+              from abouts a
+              where a.user_id = @user_id) as about,
+       exists(select 1
+              from educations edu
+              where edu.user_id = @user_id) as educations,
+       exists(select 1
+              from experiences exp
+              where exp.user_id = @user_id) as experiences,
+       exists(select 1
+              from socials s
+              where s.user_id = @user_id) as socials;
