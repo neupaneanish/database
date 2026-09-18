@@ -2,7 +2,7 @@
 insert into recovery_codes(user_id, code, created_by, updated_by)
 values (@user_id, @code, @created_by, @updated_by);
 
--- name: UpdateRecoveryCode :execresult
+-- name: UpdateRecoveryCode :execrows
 update recovery_codes
 set used_at = now()
 where id = @id
@@ -21,7 +21,7 @@ from recovery_codes
 where user_id = @user_id
   and used_at is null;
 
--- name: DeleteRecoveryCodes :execresult
+-- name: DeleteRecoveryCodes :execrows
 delete
 from recovery_codes
 where user_id = @user_id;

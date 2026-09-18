@@ -1,4 +1,4 @@
--- name: CreateCredential :execresult
+-- name: CreateCredential :execrows
 insert into credentials (user_id, password, created_by)
 values (@user_id, @password, @created_by);
 
