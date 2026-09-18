@@ -1,19 +1,9 @@
 -- name: CreateUser :one
 insert into users (email, username, phone, role, status, created_by, updated_by)
 values (@email, @username, @phone, @role, @status, @created_by, @updated_by)
-returning id,
-    email,
-    username,
-    phone,
-    role,
-    status,
-    email_verified_at,
-    created_at,
-    created_by,
-    updated_at,
-    updated_by;
+returning id, email, username, role;
 
--- name: VerifyEmail :execresult
+-- name: VerifyEmail :execrows
 update users
 set email_verified_at = now(),
     status            = @status,
@@ -23,7 +13,7 @@ where id = @id
   and email_verified_at is null;
 
 -- name: UserByEmail :one
-select id, role, status, email_verified_at
+select id, email, username, role, status, email_verified_at
 from users
 where email = @email;
 
@@ -32,25 +22,17 @@ select role
 from users
 where id = @id;
 
--- name: UpdateStatus :one
+-- name: UpdateUser :one
 update users
-set status     = @status,
+set username   = @username,
+    role       = @role,
+    status     = @status,
     updated_at = now(),
     updated_by = @updated_by
 where id = @id
   and updated_at = @updated_at
-  and @status is distinct from status
-returning id, status, updated_at, updated_by;
-
--- name: UpdateRole :one
-update users
-set role       = @role,
-    updated_at = now(),
-    updated_by = @updated_by
-where id = @id
-  and updated_at = @updated_at
-  and @role is distinct from role
-returning id, role, updated_at, updated_by;
+  and (username, role, status) is distinct from (@username, @role, @status)
+returning id, username, role, status;
 
 -- name: User :one
 select u.id,
