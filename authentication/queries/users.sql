@@ -22,17 +22,41 @@ select role
 from users
 where id = @id;
 
--- name: UpdateUser :one
+-- name: UpdateRole :execrows
 update users
-set username   = @username,
-    role       = @role,
-    status     = @status,
+set role       = @role,
     updated_at = now(),
     updated_by = @updated_by
 where id = @id
   and updated_at = @updated_at
-  and (username, role, status) is distinct from (@username, @role, @status)
-returning id, username, role, status;
+  and role is distinct from @role;
+
+-- name: UpdateStatus :execrows
+update users
+set status     = @status,
+    updated_at = now(),
+    updated_by = @updated_by
+where id = @id
+  and updated_at = @updated_at
+  and status is distinct from @status;
+
+-- name: UpdateUsername :execrows
+update users
+set username   = @username,
+    updated_at = now(),
+    updated_by = @updated_by
+where id = @id
+  and updated_at = @updated_at
+  and username is distinct from @username;
+
+-- name: UpdateEmail :execrows
+update users
+set email             = @email,
+    updated_at        = now(),
+    updated_by        = @updated_by,
+    email_verified_at = null
+where id = @id
+  and email is distinct from @email;
 
 -- name: User :one
 select u.id,
@@ -42,6 +66,9 @@ select u.id,
        u.role,
        u.status,
        (u.email_verified_at is not null)::boolean                              as email_verified,
+       u.email_verified_at,
+       (u.phone_verified_at is not null)::boolean                              as phone_verified,
+       u.phone_verified_at,
        u.created_at,
        u.created_by,
        u.updated_at,
@@ -57,7 +84,12 @@ from users u
 where u.id = @id;
 
 -- name: Users :many
-select id, username, phone
+select id,
+       email,
+       (email_verified_at is not null)::boolean as email_verified,
+       username,
+       phone,
+       (phone_verified_at is not null)::boolean as phone_verified
 from users
 order by username
 limit @page_size;
