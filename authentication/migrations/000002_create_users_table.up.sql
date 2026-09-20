@@ -10,10 +10,11 @@ create table if not exists users
     status            text               not null,
 
     search            tsvector generated always as (
-        to_tsvector('simple', email || ' ' || username)
+        to_tsvector('simple', email || ' ' || username || ' ' || phone)
         ) stored,
 
     email_verified_at timestamptz,
+    phone_verified_at timestamptz,
 
     created_at        timestamptz        not null default now(),
     created_by        uuid               not null,
@@ -23,7 +24,9 @@ create table if not exists users
     constraint check_created_updated_at
         check ( updated_at >= created_at ),
     constraint check_email_verified
-        check ( email_verified_at is null or email_verified_at >= created_at )
+        check ( email_verified_at is null or email_verified_at >= created_at ),
+    constraint check_phone_verified
+        check ( phone_verified_at is null or phone_verified_at >= created_at )
 );
 
 create index if not exists idx_user_created_by
