@@ -3,7 +3,7 @@ insert into socials (user_id, icon_id, username, created_by, updated_by)
 values (@user_id, @icon_id, @username, @created_by, @updated_by)
 returning id;
 
--- name: UpdateSocial :exec
+-- name: UpdateSocial :execrows
 update socials
 set username   = @username,
     updated_at = now(),
@@ -41,7 +41,7 @@ where i.site_suffix is not null
   and s.id is null
 order by i.name;
 
--- name: DeleteSocial :exec
+-- name: DeleteSocial :execrows
 delete
 from socials
 where id = @id

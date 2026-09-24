@@ -14,7 +14,7 @@ from nameservers
 order by random()
 limit 1;
 
--- name: DeleteNameserver :exec
+-- name: DeleteNameserver :execrows
 delete
 from nameservers
 where id = @id

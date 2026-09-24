@@ -21,7 +21,7 @@ values (@user_id,
         @updated_by)
 returning id;
 
--- name: UpdateExperience :exec
+-- name: UpdateExperience :execrows
 update experiences
 set title         = @title,
     company_name  = @company_name,
@@ -63,7 +63,7 @@ order by (end_date is null) desc,
          end_date desc nulls last,
          start_date desc;
 
--- name: DeleteExperience :exec
+-- name: DeleteExperience :execrows
 delete
 from experiences
 where id = @id
