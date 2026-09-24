@@ -14,7 +14,7 @@ create table if not exists experiences
 
     description   text,
 
-    search         tsvector generated always as (to_tsvector('simple', title || ' ' || company_name)) stored,
+    search        tsvector generated always as (to_tsvector('simple', title || ' ' || company_name)) stored,
 
     created_at    timestamptz      not null default now(),
     created_by    uuid             not null,

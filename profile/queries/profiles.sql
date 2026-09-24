@@ -21,10 +21,10 @@ where user_id = @user_id;
 -- name: Exists :one
 select exists(select 1
               from profiles p
-              where p.user_id = @user_id) as profile,
+              where p.user_id = @user_id)   as profile,
        exists(select 1
               from abouts a
-              where a.user_id = @user_id) as about,
+              where a.user_id = @user_id)   as about,
        exists(select 1
               from educations edu
               where edu.user_id = @user_id) as educations,
@@ -33,4 +33,4 @@ select exists(select 1
               where exp.user_id = @user_id) as experiences,
        exists(select 1
               from socials s
-              where s.user_id = @user_id) as socials;
+              where s.user_id = @user_id)   as socials;

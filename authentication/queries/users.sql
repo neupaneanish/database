@@ -3,7 +3,7 @@ insert into users (email, username, phone, role, status, created_by, updated_by)
 values (@email, @username, @phone, @role, @status, @created_by, @updated_by)
 returning id, email, username, role;
 
--- name: VerifyEmail :execrows
+-- name: VerifyEmail :exec
 update users
 set email_verified_at = now(),
     status            = @status,
@@ -22,7 +22,7 @@ select role
 from users
 where id = @id;
 
--- name: UpdateRole :execrows
+-- name: UpdateRole :exec
 update users
 set role       = @role,
     updated_at = now(),
@@ -31,7 +31,7 @@ where id = @id
   and updated_at = @updated_at
   and role is distinct from @role;
 
--- name: UpdateStatus :execrows
+-- name: UpdateStatus :exec
 update users
 set status     = @status,
     updated_at = now(),
@@ -40,7 +40,7 @@ where id = @id
   and updated_at = @updated_at
   and status is distinct from @status;
 
--- name: UpdateUsername :execrows
+-- name: UpdateUsername :exec
 update users
 set username   = @username,
     updated_at = now(),
@@ -49,7 +49,7 @@ where id = @id
   and updated_at = @updated_at
   and username is distinct from @username;
 
--- name: UpdateEmail :execrows
+-- name: UpdateEmail :exec
 update users
 set email             = @email,
     updated_at        = now(),
@@ -80,16 +80,18 @@ from users u
                         from credentials c
                         where c.user_id = u.id
                         order by c.id desc
-                        limit 1) as c on true
+                        limit 1) as c
+              on true
 where u.id = @id;
 
 -- name: Users :many
 select id,
        email,
-       (email_verified_at is not null)::boolean as email_verified,
+       (email_verified_at is not null)::boolean  as email_verified,
        username,
        phone,
-       (phone_verified_at is not null)::boolean as phone_verified
+       (phone_verified_at is not null) ::boolean as phone_verified
 from users
+where id != @id
 order by username
 limit @page_size;

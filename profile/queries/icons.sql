@@ -3,7 +3,7 @@ insert into icons (name, site, site_suffix, url, slug, color, created_by, update
 values (@name, @site, @site_suffix, @url, @slug, @color, @created_by, @updated_by)
 returning id;
 
--- name: UpdateIcon :execrows
+-- name: UpdateIcon :exec
 update icons
 set name        = @name,
     site        = @site,
@@ -30,7 +30,7 @@ select id,
 from icons
 where id = @id;
 
--- name: DeleteIcon :execrows
+-- name: DeleteIcon :exec
 delete
 from icons
 where id = @id

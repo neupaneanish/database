@@ -6,11 +6,12 @@ select u.id,
        u.status,
        u.email_verified_at,
        c.password,
-       (exists(select 1 from two_factors tf where tf.user_id = u.id))::boolean as two_factor
+       (exists(select 1 from two_factors tf where tf.user_id = u.id)) ::boolean as two_factor
 from users u
          join lateral ( select c.password
                         from credentials c
                         where c.user_id = u.id
                         order by c.id desc
-                        limit 1) as c on true
+                        limit 1) as c
+              on true
 where email = @email;

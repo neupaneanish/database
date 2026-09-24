@@ -25,7 +25,7 @@ values (@user_id,
         @updated_by)
 returning id;
 
--- name: UpdateEducation :execrows
+-- name: UpdateEducation :exec
 update educations
 set school         = @school,
     degree         = @degree,
@@ -73,7 +73,7 @@ order by (end_date is null) desc,
          end_date desc nulls last,
          start_date desc;
 
--- name: DeleteEducation :execrows
+-- name: DeleteEducation :exec
 delete
 from educations
 where id = @id
