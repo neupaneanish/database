@@ -3,7 +3,7 @@ insert into domains (user_id, nameserver_id, fqdn, txt, created_by, updated_by)
 values (@user_id, @nameserver_id, @fqdn, @txt, @created_by, @updated_by)
 returning id;
 
--- name: VerifyDomain :execrows
+-- name: VerifyDomain :exec
 update domains
 set verified_at = now(),
     updated_at  = now(),
@@ -38,7 +38,7 @@ from domains d
 where user_id = @user_id
 order by d.fqdn;
 
--- name: DeleteDomain :execrows
+-- name: DeleteDomain :exec
 delete
 from domains
 where id = @id
