@@ -3,7 +3,7 @@ insert into users (email, username, phone, role, status, created_by, updated_by)
 values (@email, @username, @phone, @role, @status, @created_by, @updated_by)
 returning id, email, username, role;
 
--- name: VerifyEmail :exec
+-- name: VerifyEmail :execrows
 update users
 set email_verified_at = now(),
     status            = @status,
@@ -22,7 +22,7 @@ select role
 from users
 where id = @id;
 
--- name: UpdateRole :exec
+-- name: UpdateRole :execrows
 update users
 set role       = @role,
     updated_at = now(),
@@ -31,7 +31,7 @@ where id = @id
   and updated_at = @updated_at
   and role is distinct from @role;
 
--- name: UpdateStatus :exec
+-- name: UpdateStatus :execrows
 update users
 set status     = @status,
     updated_at = now(),
@@ -40,7 +40,7 @@ where id = @id
   and updated_at = @updated_at
   and status is distinct from @status;
 
--- name: UpdateUsername :exec
+-- name: UpdateUsername :execrows
 update users
 set username   = @username,
     updated_at = now(),
@@ -49,7 +49,7 @@ where id = @id
   and updated_at = @updated_at
   and username is distinct from @username;
 
--- name: UpdateEmail :exec
+-- name: UpdateEmail :execrows
 update users
 set email             = @email,
     updated_at        = now(),

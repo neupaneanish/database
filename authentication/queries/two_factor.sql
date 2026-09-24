@@ -7,14 +7,14 @@ select secret
 from two_factors
 where user_id = @user_id;
 
--- name: UpdateTwoFactor :exec
+-- name: UpdateTwoFactor :execrows
 update two_factors
 set last_used_at = now(),
     updated_at   = now(),
     updated_by   = @updated_by
 where user_id = @user_id;
 
--- name: DeleteTwoFactor :exec
+-- name: DeleteTwoFactor :execrows
 delete
 from two_factors
 where user_id = @user_id;
