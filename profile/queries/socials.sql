@@ -23,8 +23,8 @@ select s.id,
        s.updated_at,
        s.updated_by,
        i.name,
-       concat('https://', i.site, i.site_suffix, s.username)::text as site,
-       concat('https://', i.url, '/', i.slug)::text                as icon
+       concat('https://', i.site_hostname, i.site_suffix, s.username)::text as site,
+       concat('https://', i.hostname, '/', i.suffix)::text                    as icon
 from socials s
          join icons i on s.icon_id = i.id
 where s.user_id = @user_id
@@ -34,7 +34,7 @@ order by i.name;
 -- name: SocialIcons :many
 select i.id,
        i.name,
-       concat('https://', i.url, '/', i.slug)::text as icon
+       concat('https://', i.hostname, '/', i.suffix)::text as icon
 from icons i
          left join socials s on s.icon_id = i.id and s.user_id = @user_id
 where i.site_suffix is not null

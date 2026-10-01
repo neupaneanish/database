@@ -34,6 +34,9 @@ create table if not exists educations
 create index if not exists idx_educations_search
     on educations using gin (search);
 
+create index if not exists idx_educations_user_id
+    on educations (user_id);
+
 create index if not exists idx_educations_school_trgm
     on educations using gin (school gin_trgm_ops);
 

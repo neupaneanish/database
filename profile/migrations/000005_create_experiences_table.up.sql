@@ -32,6 +32,9 @@ create table if not exists experiences
 create index if not exists idx_experiences_search
     on experiences using gin (search);
 
+create index if not exists idx_experiences_user_id
+    on experiences (user_id);
+
 create index if not exists idx_experiences_title_trgm
     on experiences using gin (title gin_trgm_ops);
 
