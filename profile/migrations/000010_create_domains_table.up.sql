@@ -4,12 +4,13 @@ create table if not exists domains
 
     user_id       uuid             not null,
     nameserver_id uuid             not null references nameservers (id) on delete restrict,
+    template_id   uuid             not null references templates (id) on delete restrict,
 
-    fqdn          citext unique    not null,
+    hostname      citext unique    not null,
     txt           citext unique    not null,
     verified_at   timestamptz,
 
-    search        tsvector generated always as (to_tsvector('simple', fqdn)) stored,
+    search        tsvector generated always as (to_tsvector('simple', hostname)) stored,
 
     created_at    timestamptz      not null default now(),
     created_by    uuid             not null,
@@ -27,13 +28,16 @@ create table if not exists domains
 create index if not exists idx_domains_search
     on domains using gin (search);
 
-create index if not exists idx_experiences_fqdn_trgm
-    on domains using gin (fqdn gin_trgm_ops);
+create index if not exists idx_experiences_hostname_trgm
+    on domains using gin (hostname gin_trgm_ops);
 
 create index if not exists idx_domains_user_id
     on domains (user_id);
 
-create index if not exists idx_domains_name_server_id
+create index if not exists idx_domains_template_id
+    on domains (template_id);
+
+create index if not exists idx_domains_nameserver_id
     on domains (nameserver_id);
 
 create index if not exists idx_domains_created_by

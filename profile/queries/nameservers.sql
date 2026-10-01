@@ -1,18 +1,17 @@
 -- name: CreateNameserver :one
-insert into nameservers(ip, ip_type, created_by, updated_by)
-values (@ip, @ip_type, @created_by, @updated_by)
+insert into nameservers(cname, hostname, created_by, updated_by)
+values (@cname, @hostname, @created_by, @updated_by)
 returning id;
 
 -- name: Nameservers :many
-select *
+select id, concat(cname, '.', hostname):: text as server
 from nameservers
-order by created_at desc;
+order by hostname;
 
 -- name: Nameserver :one
-select id
+select *
 from nameservers
-order by random()
-limit 1;
+where id = @id;
 
 -- name: DeleteNameserver :execrows
 delete

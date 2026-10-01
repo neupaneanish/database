@@ -58,3 +58,12 @@ sql:
             go_type:
               type: "time.Time"
               pointer: true
+
+          - db_type: "jsonb"
+            go_type: "encoding/json.RawMessage"
+
+          - db_type: "jsonb"
+            nullable: true
+            go_type:
+              type: "encoding/json.RawMessage"
+              pointer: true

@@ -1,27 +1,27 @@
 -- name: CreateIcon :one
-insert into icons (name, site, site_suffix, url, slug, color, created_by, updated_by)
-values (@name, @site, @site_suffix, @url, @slug, @color, @created_by, @updated_by)
+insert into icons (name, site_hostname, site_suffix, hostname, suffix, color, created_by, updated_by)
+values (@name, @site_hostname, @site_suffix, @hostname, @suffix, @color, @created_by, @updated_by)
 returning id;
 
 -- name: UpdateIcon :execrows
 update icons
-set name        = @name,
-    site        = @site,
-    site_suffix = @site_suffix,
-    url         = @url,
-    slug        = @slug,
-    color       = @color
+set name          = @name,
+    site_hostname = @site_hostname,
+    site_suffix   = @site_suffix,
+    hostname      = @hostname,
+    suffix          = @suffix,
+    color         = @color
 where id = @id
   and updated_at = @updated_at::timestamptz
-  and (name, site, site_suffix, url, slug, color) is distinct from (@name, @site, @site_suffix, @url, @slug, @color);
+  and (name, site_hostname, site_suffix, hostname, slug, color) is distinct from (@name, @site_hostname, @site_suffix, @hostname, @suffix, @color);
 
 -- name: Icon :one
 select id,
        name,
-       site,
+       site_hostname,
        site_suffix,
-       url,
-       slug,
+       hostname,
+       suffix,
        color,
        created_at,
        created_by,
@@ -39,6 +39,6 @@ where id = @id
 -- name: Icons :many
 select id,
        name,
-       concat('https://', url, '/', slug)::text as icon
+       concat('https://', hostname, '/', suffix)::text as icon
 from icons
 order by name;
