@@ -13,18 +13,22 @@ where id = @id
   and updated_at = @updated_at::timestamptz
   and username is distinct from @username;
 
+-- name: Social :one
+select s.*, concat('https://', i.hostname, '/', i.suffix)::text as icon
+from socials s
+         join icons i on s.icon_id = i.id
+where s.id = @id
+  and s.user_id = @user_id;
+
 -- name: Socials :many
 select s.id,
        s.user_id,
        s.icon_id,
        s.username,
-       s.created_at,
-       s.created_by,
        s.updated_at,
-       s.updated_by,
        i.name,
-       concat('https://', i.site_hostname, i.site_suffix, s.username)::text as site,
-       concat('https://', i.hostname, '/', i.suffix)::text                    as icon
+       concat('https://', i.site_hostname, i.site_suffix, s.username)::text as social,
+       concat('https://', i.hostname, '/', i.suffix)::text                  as icon
 from socials s
          join icons i on s.icon_id = i.id
 where s.user_id = @user_id
