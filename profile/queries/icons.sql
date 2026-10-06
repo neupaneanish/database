@@ -13,7 +13,7 @@ set name          = @name,
     color         = @color
 where id = @id
   and updated_at = @updated_at::timestamptz
-  and (name, site_hostname, site_suffix, hostname, slug, color) is distinct from (@name, @site_hostname, @site_suffix, @hostname, @suffix, @color);
+  and (name, site_hostname, site_suffix, hostname, suffix, color) is distinct from (@name, @site_hostname, @site_suffix, @hostname, @suffix, @color);
 
 -- name: Icon :one
 select id,
