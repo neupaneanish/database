@@ -17,7 +17,7 @@ where id = @id
 select s.*,
        i.name,
        concat('https://', i.hostname, '/', i.suffix)::text                   as icon,
-       concat('https://', i.site_hostname, i.site_suffix,, s.username)::text as social
+       concat('https://', i.site_hostname, i.site_suffix, s.username)::text as social
 from socials s
          join icons i on s.icon_id = i.id
 where s.id = @id
