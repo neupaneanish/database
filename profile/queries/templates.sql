@@ -17,7 +17,8 @@ where id = @id
 -- name: Template :one
 select t.*, concat('https://', hostname, '/', suffix)::text as icon
 from templates t
-         join icons i on i.id = t.icon_id;
+         join icons i on i.id = t.icon_id
+where t.id = @id;
 
 -- name: Templates :many
 select t.id,
