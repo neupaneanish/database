@@ -5,11 +5,14 @@ returning id;
 
 -- name: UpdateTemplate :execrows
 update templates
-set name = @name
-    and icon_id = @icon_id
-    and updated_at = now()
-    and updated_at = @updated_at::timestamptz
-    and (name, icon_id) is distinct from (@name, @icon_id);
+set name        = @name,
+    icon_id     = @icon_id,
+    description = @description,
+    updated_at  = now(),
+    updated_by  = @updated_by
+where id = @id
+  and updated_at = @updated_at::timestamptz
+  and (name, icon_id, description) is distinct from (@name, @icon_id, @description);
 
 -- name: Template :one
 select t.*, concat('https://', hostname, '/', suffix)::text as icon
