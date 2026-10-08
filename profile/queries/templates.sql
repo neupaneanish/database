@@ -3,7 +3,7 @@ insert into templates (icon_id, name, description, created_by, updated_by)
 values (@icon_id, @name, @description, @created_by, @updated_by)
 returning id;
 
--- name: UpdateTemplate :execrows
+-- name: UpdateTemplate :one
 update templates
 set name        = @name,
     icon_id     = @icon_id,
@@ -12,7 +12,8 @@ set name        = @name,
     updated_by  = @updated_by
 where id = @id
   and updated_at = @updated_at::timestamptz
-  and (name, icon_id, description) is distinct from (@name, @icon_id, @description);
+  and (name, icon_id, description) is distinct from (@name, @icon_id, @description)
+returning id, name;
 
 -- name: Template :one
 select t.*, concat('https://', hostname, '/', suffix)::text as icon

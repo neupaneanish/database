@@ -22,32 +22,28 @@ values (@user_id,
 returning id;
 
 -- name: VerifyDomain :one
-update domains d
+update domains
 set verified_at = now(),
     updated_at  = now(),
     updated_by  = @updated_by
-from templates t
-where d.id = @id
-  and d.user_id = @user_id
-  and d.verified_at is null
-  and d.updated_at = @updated_at::timestamptz
-  and d.txt = @txt
-  and t.id = d.template_id
-returning d.id, d.hostname, d.user_id, t.name as template;
+where id = @id
+  and user_id = @user_id
+  and verified_at is null
+  and updated_at = @updated_at::timestamptz
+  and txt = @txt
+returning id, hostname, user_id, template_id;
 
 -- name: UpdateDomainTemplate :one
-update domains d
+update domains
 set template_id = @template_id,
     updated_at  = now(),
     updated_by  = @updated_by
-from templates t
-where d.id = @id
-  and d.user_id = @user_id
-  and d.verified_at is not null
-  and d.updated_at = @updated_at::timestamptz
-  and d.template_id is distinct from @template_id
-  and t.id = @template_id
-returning d.id, d.hostname, d.user_id, t.name as template;
+where id = @id
+  and user_id = @user_id
+  and verified_at is not null
+  and updated_at = @updated_at::timestamptz
+  and template_id is distinct from @template_id
+returning id, hostname, user_id, template_id;
 
 -- name: Domain :one
 select d.id,
