@@ -97,6 +97,6 @@ order by username
 limit @page_size;
 
 -- name: Counts :one
-select count()
+select count(*)
 from users
 where id != @id;
