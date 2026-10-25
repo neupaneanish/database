@@ -1,6 +1,7 @@
--- name: CreateProfile :exec
+-- name: CreateProfile :one
 insert into profiles (user_id, name, title, dob, created_by, updated_by)
-values (@user_id, @name, @title, @dob, @created_by, @updated_by);
+values (@user_id, @name, @title, @dob, @created_by, @updated_by)
+returning *;
 
 -- name: UpdateProfile :one
 update profiles
@@ -29,8 +30,25 @@ select exists(select 1
               from educations edu
               where edu.user_id = @user_id) as educations,
        exists(select 1
-              from experiences exp
-              where exp.user_id = @user_id) as experiences,
+              from experiences ex
+              where ex.user_id = @user_id)  as experiences,
        exists(select 1
               from socials s
               where s.user_id = @user_id)   as socials;
+
+-- name: ProfileCounts :one
+select (select count(*) from domains d where d.user_id = @user_id)       as domains,
+       (select count(*) from educations ed where ed.user_id = @user_id)  as educations,
+       (select count(*) from experiences ex where ex.user_id = @user_id) as experiences,
+       (select count(*) from socials so where so.user_id = @user_id)     as socials;
+
+-- name: RootCounts :one
+select (select count(*) from profiles)    as profiles,
+       (select count(*) from abouts)      as abouts,
+       (select count(*) from domains)     as domains,
+       (select count(*) from educations)  as educations,
+       (select count(*) from experiences) as experiences,
+       (select count(*) from socials)     as socials,
+       (select count(*) from nameservers) as nameservers,
+       (select count(*) from icons)       as icons,
+       (select count(*) from templates)   as templates;

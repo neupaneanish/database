@@ -95,3 +95,8 @@ from users
 where id != @id
 order by username
 limit @page_size;
+
+-- name: Counts :one
+select count()
+from users
+where id != @id;
