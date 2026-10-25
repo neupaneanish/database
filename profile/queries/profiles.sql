@@ -42,7 +42,7 @@ select (select count(*) from domains d where d.user_id = @user_id)       as doma
        (select count(*) from experiences ex where ex.user_id = @user_id) as experiences,
        (select count(*) from socials so where so.user_id = @user_id)     as socials;
 
--- name: Counts :one
+-- name: RootCounts :one
 select (select count(*) from profiles)    as profiles,
        (select count(*) from abouts)      as abouts,
        (select count(*) from domains)     as domains,
