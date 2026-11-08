@@ -1,9 +1,8 @@
--- name: CreateProfile :one
+-- name: CreateProfile :execrows
 insert into profiles (user_id, name, title, dob, created_by, updated_by)
-values (@user_id, @name, @title, @dob, @created_by, @updated_by)
-returning *;
+values (@user_id, @name, @title, @dob, @created_by, @updated_by);
 
--- name: UpdateProfile :one
+-- name: UpdateProfile :execrows
 update profiles
 set name       = @name,
     title      = @title,
@@ -11,8 +10,7 @@ set name       = @name,
     updated_by = @updated_by
 where user_id = @user_id
   and updated_at = @updated_at::timestamptz
-  and (name, title) is distinct from (@name, @title)
-returning *;
+  and (name, title) is distinct from (@name, @title);
 
 -- name: Profile :one
 select *
